@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="http://soundboard.ass-we-can.com/static/music/BillyH/AAAAAAAH.mp3"></audio>
+  <audio data-key="83" src="http://soundboard.ass-we-can.com/static/music/BillyH/Ass we can.mp3"></audio>
+  <audio data-key="68" src="http://soundboard.ass-we-can.com/static/music/MarkW/Boss of this gym.mp3"></audio>
+  <audio data-key="70" src="http://soundboard.ass-we-can.com/static/music/MarkW/Come on.mp3"></audio>
+  <audio data-key="71" src="http://soundboard.ass-we-can.com/static/music/Slave/Oh Oh Aaah Ah.mp3"></audio>
+  <audio data-key="72" src="http://soundboard.ass-we-can.com/static/music/VanD/Boy next door.mp3"></audio>
+  <audio data-key="74" src="http://soundboard.ass-we-can.com/static/music/babyface/RIP ears.mp3"></audio>
+  <audio data-key="75" src="http://soundboard.ass-we-can.com/static/music/VanD/FUCKYOU.mp3"></audio>
+  <audio data-key="76" src="http://soundboard.ass-we-can.com/static/music/VanD/WOO.mp3"></audio>
+
+<script>
+  let turnOffLight = event => {
+    if (event.propertyName !== 'transform') return;
+    event.target.classList.remove('playing')
+  };
+
+  let blow = (event) => {
+    let button = document.querySelector(`div[data-key="${event.keyCode}"]`);
+    let audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+    if (!audio) return;
+    button.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  };
+
+  const buttons = document.querySelectorAll('.key');
+  window.addEventListener('keydown' , blow);
+  buttons.forEach((button) => button.addEventListener('transitionend' , turnOffLight));
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
