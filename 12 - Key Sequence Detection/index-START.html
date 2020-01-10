@@ -7,6 +7,43 @@
 </head>
 <body>
 <script>
+  const shtorkTop = document;
+  shtorkTop['savvaPidr'] = shtorkTop.querySelector;
+  const вКонсоль = console;
+  вКонсоль['ебани'] = вКонсоль.log;
+
+
+  function parseUrl(url) {
+    let i = url.indexOf('?');
+    if (i === -1) {
+      return;
+    }
+    const obj = {};
+    const data = url.slice(i + 1).split('&');
+    const arrays = data.map(item => item.split('='));
+    arrays.map(array => {
+      [ key, value ] = array;
+      obj[key] = value;
+    });
+    console.log(obj)
+  }
+
+  parseUrl('https://badoo.com/search?page=6&filter=online&method=post&limit=112&savva=pidr');
+
+  вКонсоль.ебани(shtorkTop.savvaPidr('body'));
+  shtorkTop.savvaPidr('body').style.backgroundColor = 'red';
+
+  const pressed = [];
+  const secretCode = 'privet';
+  window.addEventListener('keyup', (e) => {
+    pressed.push(e.key);
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+    console.log(pressed.length);
+    if (pressed.join('').includes(secretCode)) {
+      console.log('DING DING!');
+      cornify_add();
+    }
+  });
 </script>
 </body>
 </html>
