@@ -19,13 +19,13 @@
       return;
     }
     const obj = {};
-    const data = url.slice(i + 1).split('&');
-    const arrays = data.map(item => item.split('='));
-    arrays.map(array => {
-      [ key, value ] = array;
+    const data = url.slice(i + 1)
+      .split('&')
+      .map(item => item.split('='))
+      .map(([ key, value ]) => {
       obj[key] = value;
     });
-    console.log(obj)
+    console.log(obj);
   }
 
   parseUrl('https://badoo.com/search?page=6&filter=online&method=post&limit=112&savva=pidr');
