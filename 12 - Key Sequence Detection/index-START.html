@@ -44,6 +44,21 @@
       cornify_add();
     }
   });
+
+
+  const person = {
+    name: 'Bob',
+    friends: ['Mark', 'Oleg']
+  };
+
+
+  const shallowCopy = Object.assign({}, person);
+  shallowCopy.friends.push('Savva');
+  person.friends.push('Andrew');
+  console.log(person);
+  // console.log(person);
+  console.log(shallowCopy);
+
 </script>
 </body>
 </html>

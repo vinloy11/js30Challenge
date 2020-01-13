@@ -41,6 +41,76 @@
 
     // timing
 
+    let Person, person, anotherPerson, Developer, developer;
+
+    Person = function (name) {
+      this.name = name
+    };
+
+    Person.prototype.greet = function() {
+      console.log('hello my name ' + this.name)
+    };
+
+    person = new Person('John');
+    console.log(person.name);
+    person.greet();
+
+    anotherPerson = new Person('Andrew');
+    console.log(anotherPerson.name);
+    anotherPerson.greet();
+
+    // console.log(person.prototype.constructor);
+    console.log(Person.prototype.isPrototypeOf(anotherPerson));
+
+    Developer = function (name, skills) {
+      Person.apply(this, arguments);
+      this.skills = skills || [];
+    };
+
+    Developer.prototype = Object.create(Person.prototype);
+    Developer.prototype.constructor = Developer;
+    Developer.prototype.feels = function () {
+      console.log('I love my skills: ' + this.skills);
+    };
+
+    developer = new Developer('Yra', ['Ruby', 'PHP', 'JS']);
+    developer.greet();
+    developer.feels();
+    console.log(developer.name);
+    console.log(developer.skills);
+
+    class FakePerson {
+      constructor(name) {
+        this.name = name
+      }
+
+      greet() {
+        console.log(`hello my name is ${this.name}`)
+      }
+    }
+
+    let fPerson = new FakePerson('John');
+    console.log(fPerson.name);
+    fPerson.greet();
+    console.log(FakePerson.prototype.isPrototypeOf(fPerson));
+
+    class FakeDeveloper extends Person {
+      constructor(name, skills) {
+        super(name);
+        this.skills = skills || [];
+      }
+
+      feels () {
+        console.log(`I love my skills: ${this.skills}`);
+      }
+    }
+
+    let fDeveloper = new FakeDeveloper('yra', ['PHP', 'RUBY', 'JS']);
+    fDeveloper.greet();
+    fDeveloper.feels();
+    console.log(fDeveloper.name);
+    console.log(fDeveloper.skills);
+
   </script>
 </body>
 </html>
