@@ -77,3 +77,15 @@ h2 {
   outline: 0;
   border: 1px solid rgba(0,0,0,0.1);
 }
+
+
+body {
+  /*background: palevioletred;*/
+  animation: changeBack 10s infinite;
+}
+
+@keyframes changeBack {
+  0% { background: palevioletred }
+  50% { background: darkcyan}
+  100% { background: cornflowerblue }
+}
