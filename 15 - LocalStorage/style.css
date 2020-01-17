@@ -11,7 +11,7 @@ html {
 }
 
 *, *:before, *:after {
-  box-sizing: inherit; 
+  box-sizing: inherit;
 }
 
 svg {
@@ -87,5 +87,5 @@ body {
 @keyframes changeBack {
   0% { background: palevioletred }
   50% { background: darkcyan}
-  100% { background: cornflowerblue }
+  100% { background: palevioletred }
 }
