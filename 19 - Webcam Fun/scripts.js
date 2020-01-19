@@ -24,26 +24,32 @@ function getVideo() {
     });
 }
 
+
 function paintToCanvas() {
   const width = video.videoWidth;
   const height = video.videoHeight;
   canvas.width = width;
   canvas.height = height;
 
-  return setInterval(() => {
+  return startPaint(video, width, height)
+}
+var t;
+function startPaint(video, width, height) {
+  t = setInterval(() => {
     ctx.drawImage(video, 0, 0, width, height);
     // take the pixels out
     let pixels = ctx.getImageData(0, 0, width, height);
-    // mess with them
-    // pixels = redEffect(pixels);
 
     pixels = greenScreen(pixels);
     // ctx.globalAlpha = 0.8;
 
     // pixels = greenScreen(pixels);
-    // put them back
     ctx.putImageData(pixels, 0, 0);
   }, 16);
+}
+
+function stopPaint() {
+  clearTimeout(t);
 }
 
 function takePhoto() {
@@ -56,12 +62,12 @@ function takePhoto() {
   const link = document.createElement('a');
   link.href = data;
   link.setAttribute('download', 'handsome');
-  link.innerHTML = `<img src="${data}" alt="Handsome Man" />`;
+  link.innerHTML = `<img src="${ data }" alt="Handsome Man" />`;
   strip.insertBefore(link, strip.firstChild);
 }
 
 function redEffect(pixels) {
-  for (let i = 0; i < pixels.data.length; i+=4) {
+  for (let i = 0; i < pixels.data.length; i += 4) {
     pixels.data[i + 0] = pixels.data[i + 0] + 200; // RED
     pixels.data[i + 1] = pixels.data[i + 1] - 50; // GREEN
     pixels.data[i + 2] = pixels.data[i + 2] * 0.5; // Blue
@@ -70,7 +76,7 @@ function redEffect(pixels) {
 }
 
 function rgbSplit(pixels) {
-  for (let i = 0; i < pixels.data.length; i+=4) {
+  for (let i = 0; i < pixels.data.length; i += 4) {
     pixels.data[i - 150] = pixels.data[i + 0]; // RED
     pixels.data[i + 500] = pixels.data[i + 1]; // GREEN
     pixels.data[i - 550] = pixels.data[i + 2]; // Blue
@@ -105,6 +111,75 @@ function greenScreen(pixels) {
   return pixels;
 }
 
-getVideo();
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+recognition.interimResults = true;
+recognition.lang = 'ru-RU';
+
+recognition.addEventListener('result', e => {
+  const transcript = Array.from(e.results)
+    .map(result => result[0])
+    .map(result => result.transcript)
+    .join('');
+
+  let isFinal = Array.from(e.results)[0].isFinal;
+  isFinal ? parseWord(transcript.toLowerCase()) : ''
+
+});
+
+function parseWord(phrase) {
+  console.log(phrase);
+  switch (phrase) {
+    case 'сделай снимок':
+      takePhoto();
+      break;
+    case 'сделай фото':
+      takePhoto();
+      break;
+    case 'сфоткай':
+      takePhoto();
+      break;
+    case 'включи веб-камеру':
+      getVideo();
+      break;
+    case 'включи камеру':
+      getVideo();
+      break;
+    case 'включи webcam':
+      getVideo();
+      break;
+    case 'включи вебку':
+      getVideo();
+      break;
+    case 'выключи камеру':
+      stopVideo();
+      break;
+    case 'выключи вебку':
+      stopVideo();
+      break;
+    case 'выключи веб-камеру':
+      stopVideo();
+      break;
+  }
+}
+
+function stopVideo() {
+  if (video) {
+    let tracks = video.srcObject.getTracks();
+    tracks.forEach(function (track) {
+      track.stop();
+    });
+
+    video.srcObject = null;
+    paintToCanvas();
+    stopPaint()
+  }
+}
+
+
+recognition.addEventListener('end', recognition.start);
+recognition.start();
+
 
 video.addEventListener('canplay', paintToCanvas);
